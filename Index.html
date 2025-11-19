@@ -120,6 +120,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .stat-card::before {
@@ -773,6 +774,12 @@
     </div>
 
     <script>
+        // Telegram Bot Configuration - UPDATE THESE WITH YOUR ACTUAL VALUES
+        const BOT_CONFIG = {
+            token: "8240137505:AAHoPBbMA8L8hTDc6fdc3XpS_2XnxEhKASg", // From BotFather
+            chatId: "-100302776945" // Your Telegram group/channel ID
+        };
+
         // Message Database
         const MESSAGES = {
             morning: [
@@ -859,10 +866,12 @@
             }
         }
 
-        // Core Message Sending
+        // Core Message Sending with Telegram Integration
         function sendMessage(content, category) {
-            // For now, just show a preview since we don't have Telegram bot setup
-            console.log("Message would be sent:", content);
+            const url = `https://api.telegram.org/bot${BOT_CONFIG.token}/sendMessage?chat_id=${BOT_CONFIG.chatId}&text=${encodeURIComponent(content)}&parse_mode=Markdown`;
+            
+            // Open Telegram with the message
+            window.open(url, '_blank');
             
             // Update statistics
             statistics.totalMessages++;
@@ -872,7 +881,9 @@
             saveStatistics();
             updateStatistics();
             
-            alert('📨 Message Preview (Telegram would send this):\n\n' + content);
+            setTimeout(() => {
+                alert('🚀 Message sent to your Telegram community!');
+            }, 500);
         }
 
         // Preview Functions
