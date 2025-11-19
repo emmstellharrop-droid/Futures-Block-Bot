@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureBlock Pro | Trading Command Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667aea;
+            --primary-dark: #5668d9;
+            --secondary: #00d4aa;
+            --accent: #ff6b6b;
+            --dark: #0f1420;
+            --darker: #0a0e17;
+            --light: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b7c3;
+            --text-muted: #6c757d;
+            --gradient: linear-gradient(135deg, #667aea 0%, #8e44ad 100%);
+            --success: #00d4aa;
+            --warning: #ffd166;
+            --psych: #9b59b6;
+            --edu: #3498db;
+            --community: #f39c12;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #1a1f2e 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0 30px;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 8px 32px rgba(102, 122, 234, 0.3);
+        }
+
+        .logo-text {
+            font-size: 3.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: 300;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--success);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            padding: 30px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.6s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .command-card {
+            padding: 30px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transition: left 0.6s;
+        }
+
+        .command-card:hover::before {
+            left: 100%;
+        }
+
+        .command-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .command-card:active {
+            transform: translateY(-2px);
+        }
+
+        .command-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .command-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .command-morning { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); }
+        .command-education { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+        .command-psychology { background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%); }
+        .command-community { background: linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%); }
+        .command-ai { background: var(--gradient); }
+        .command-schedule { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+
+        .command-info h3 {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .command-info p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .command-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .command-metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+        }
+
+        .command-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .cmd-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .cmd-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cmd-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .cmd-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .actions-panel {
+            padding: 35px;
+            margin-bottom: 30px;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .panel-title {
+            font-size: 1.6em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .actions-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .action-tile {
+            padding: 25px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+
+        .action-tile:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .action-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .action-desc {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+
+        .preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-content {
+            background: var(--dark);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .preview-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .preview-text {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-family: monospace;
+            border: 1px solid var(--card-border);
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .preview-send {
+            flex: 1;
+            padding: 12px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .preview-cancel {
+            flex: 1;
+            padding: 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .command-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-text {
+                font-size: 2.5em;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-modal" id="previewModal">
+        <div class="preview-content glass">
+            <div class="preview-header">
+                <div class="preview-title">📝 Message Preview</div>
+                <button class="close-btn" onclick="closePreview()">&times;</button>
+            </div>
+            <div class="preview-text" id="previewText"></div>
+            <div class="preview-actions">
+                <button class="preview-cancel" onclick="closePreview()">Cancel</button>
+                <button class="preview-send" onclick="sendPreviewMessage()">Send to Telegram</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="logo-text">FutureBlock Pro</div>
+            </div>
+            <div class="tagline">Trading Community Command Center</div>
+            <div class="status-pill">
+                <i class="fas fa-circle"></i>
+                <span>Active • 12 Modules • AI Enhanced</span>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card glass" onclick="showStats()">
+                <div class="stat-icon">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+                <div class="stat-number" id="totalMessages">0</div>
+                <div class="stat-label">Messages Sent</div>
+            </div>
+            <div class="stat-card glass" onclick="showTodayStats()">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-number" id="todayMessages">0</div>
+                <div class="stat-label">Today</div>
+            </div>
+            <div class="stat-card glass" onclick="showTemplates()">
+                <div class="stat-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <div class="stat-number">12</div>
+                <div class="stat-label">Active Modules</div>
+            </div>
+            <div class="stat-card glass" onclick="showPerformance()">
+                <div class="stat-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label">System Ready</div>
+            </div>
+        </div>
+
+        <div class="command-grid">
+            <div class="command-card glass" onclick="openMorningDashboard()">
+                <div class="command-header">
+                    <div class="command-icon command-morning">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="command-info">
+                        <h3>Morning Engine</h3>
+                        <p>Daily mindset activation and market preparation sequences</p>
+                    </div>
+                </div>
+                <div class="command-stats">
+                    <div class="command-metric">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">Templates</div>
+                    </div>
+                    <div class="command-metric">
+                        <div class="metric-value" id="morningCount">0</div>
+                        <div class="metric-label">Sent Today</div>
+                    </div>
+                </div>
+                <div class="command-actions">
+                    <button class="cmd-btn cmd-btn-primary" onclick="event.stopPropagation(); previewMorningSequence()">
+                        <i class="fas fa-play"></i>Run Sequence
+                    </button>
+                    <button class="cmd-btn cmd-btn-secondary" onclick="event.stopPropagation(); showMorningTemplates()">
+                        <i class="fas fa-list"></i>Templates
+                    </button>
+                </div>
+            </div>
+
+            <div class="command-card glass" onclick="openEducationHub()">
+                <div class="command-header">
+                    <div class="command-icon command-education">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="command-info">
+                        <h3>Education Hub</h3>
+                        <p>Trading concepts, risk management, and strategy education</p>
+                    </div>
+                </div>
+                <div class="command-stats">
+                    <div class="command-metric">
+                        <div class="metric-value">4</div>
+                        <div class="metric-label">Modules</div>
+                    </div>
+                    <div class="command-metric">
+                        <div class="metric-value" id="educationCount">0</div>
+                        <div class="metric-label">Active</div>
+                    </div>
+                </div>
+                <div class="command-actions">
+                    <button class="cmd-btn cmd-btn-primary" onclick="event.stopPropagation(); previewRandomEducation()">
+                        <i class="fas fa-shuffle"></i>Random Lesson
+                    </button>
+                    <button class="cmd-btn cmd-btn-secondary" onclick="event.stopPropagation(); showEducationModules()">
+                        <i class="fas fa-book"></i>Browse
+                    </button>
+                </div>
+            </div>
+
+            <div class="command-card glass" onclick="openPsychologyLab()">
+                <div class="command-header">
+                    <div class="command-icon command-psychology">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="command-info">
+                        <h3>Psychology Lab</h3>
+                        <p>Mindset training, emotional control, and discipline systems</p>
+                    </div>
+                </div>
+                <div class="command-stats">
+                    <div class="command-metric">
+                        <div class="metric-value">5</div>
+                        <div class="metric-label">Tools</div>
+                    </div>
+                    <div class="command-metric">
+                        <div class="metric-value" id="psychologyCount">0</div>
+                        <div class="metric-label">In Use</div>
+                    </div>
+                </div>
+                <div class="command-actions">
+                    <button class="cmd-btn cmd-btn-primary" onclick="event.stopPropagation(); previewPsychologyBoost()">
+                        <i class="fas fa-brain"></i>Mindset Boost
+                    </button>
+                    <button class="cmd-btn cmd-btn-secondary" onclick="event.stopPropagation(); showPsychologyTools()">
+                        <i class="fas fa-tools"></i>Tools
+                    </button>
+                </div>
+            </div>
+
+            <div class="command-card glass" onclick="openCommunityHub()">
+                <div class="command-header">
+                    <div class="command-icon command-community">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="command-info">
+                        <h3>Community Hub</h3>
+                        <p>Engagement, challenges, and community building activities</p>
+                    </div>
+                </div>
+                <div class="command-stats">
+                    <div class="command-metric">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">Activities</div>
+                    </div>
+                    <div class="command-metric">
+                        <div class="metric-value" id="communityCount">0</div>
+                        <div class="metric-label">Engaged</div>
+                    </div>
+                </div>
+                <div class="command-actions">
+                    <button class="cmd-btn cmd-btn-primary" onclick="event.stopPropagation(); previewCommunityEngagement()">
+                        <i class="fas fa-bullhorn"></i>Engage Now
+                    </button>
+                    <button class="cmd-btn cmd-btn-secondary" onclick="event.stopPropagation(); showCommunityActivities()">
+                        <i class="fas fa-chart-network"></i>Activities
+                    </button>
+                </div>
+            </div>
+
+            <div class="command-card glass" onclick="openAILab()">
+                <div class="command-header">
+                    <div class="command-icon command-ai">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="command-info">
+                        <h3>AI Generator</h3>
+                        <p>Create custom messages and content using AI intelligence</p>
+                    </div>
+                </div>
+                <div class="command-stats">
+                    <div class="command-metric">
+                        <div class="metric-value" id="aiGenerated">0</div>
+                        <div class="metric-label">Generated</div>
+                    </div>
+                    <div class="command-metric">
+                        <div class="metric-value">∞</div>
+                        <div class="metric-label">Possibilities</div>
+                    </div>
+                </div>
+                <div class="command-actions">
+                    <button class="cmd-btn cmd-btn-primary" onclick="event.stopPropagation(); openAIGenerator()">
+                        <i class="fas fa-wand-magic"></i>Generate
+                    </button>
+                    <button class="cmd-btn cmd-btn-secondary" onclick="event.stopPropagation(); showAITemplates()">
+                        <i class="fas fa-stars"></i>Templates
+                    </button>
+                </div>
+            </div>
+
+            <div class="command-card glass" onclick="openScheduler()">
+                <div class="command-header">
+                    <div class="command-icon command-schedule">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="command-info">
+                        <h3>Smart Scheduler</h3>
+                        <p>Automated message scheduling and timing optimization</p>
+                    </div>
+                </div>
+                <div class="command-stats">
+                    <div class="command-metric">
+                        <div class="metric-value" id="scheduledCount">0</div>
+                        <div class="metric-label">Scheduled</div>
+                    </div>
+                    <div class="command-metric">
+                        <div class="metric-value">24/7</div>
+                        <div class="metric-label">Auto-Run</div>
+                    </div>
+                </div>
+                <div class="command-actions">
+                    <button class="cmd-btn cmd-btn-primary" onclick="event.stopPropagation(); scheduleRandomMessage()">
+                        <i class="fas fa-plus"></i>Schedule
+                    </button>
+                    <button class="cmd-btn cmd-btn-secondary" onclick="event.stopPropagation(); showSchedule()">
+                        <i class="fas fa-calendar"></i>View Queue
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions-panel glass">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <i class="fas fa-bolt"></i>
+                    Quick Actions
+                </div>
+                <div style="color: var(--text-secondary); font-size: 0.9em;">
+                    One-click operations
+                </div>
+            </div>
+            <div class="actions-strip">
+                <div class="action-tile" onclick="previewDailySequence()">
+                    <span class="action-icon">🌅</span>
+                    <div class="action-title">Morning Blast</div>
+                    <div class="action-desc">Send full morning sequence</div>
+                </div>
+                <div class="action-tile" onclick="previewRandomEducation()">
+                    <span class="action-icon">🎓</span>
+                    <div class="action-title">Education Drop</div>
+                    <div class="action-desc">Random trading lesson</div>
+                </div>
+                <div class="action-tile" onclick="previewPsychologyBoost()">
+                    <span class="action-icon">🧠</span>
+                    <div class="action-title">Mindset Boost</div>
+                    <div class="action-desc">Psychology reinforcement</div>
+                </div>
+                <div class="action-tile" onclick="previewCommunityEngagement()">
+                    <span class="action-icon">👥</span>
+                    <div class="action-title">Community Spark</div>
+                    <div class="action-desc">Engage your members</div>
+                </div>
+                <div class="action-tile" onclick="generateQuickAI()">
+                    <span class="action-icon">🤖</span>
+                    <div class="action-title">AI Quick Gen</div>
+                    <div class="action-desc">Instant AI message</div>
+                </div>
+                <div class="action-tile" onclick="scheduleQuickMessage()">
+                    <span class="action-icon">⏰</span>
+                    <div class="action-title">Quick Schedule</div>
+                    <div class="action-desc">Schedule for later</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>FutureBlock Pro © 2024 | Trading Community Command Center</p>
+            <p style="margin-top: 8px; color: var(--text-muted); font-size: 0.8em;">
+                Powered by AI • Built for Community Growth • Professional Grade
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Message Database
+        const MESSAGES = {
+            morning: [
+                { 
+                    title: "Morning Mindset", 
+                    desc: "Start with champion psychology",
+                    content: `🌅 *MORNING MINDSET ACTIVATION* 🌅\n\nGood morning champions! \n\nToday's focus:\n• Trade charts, not emotions\n• Process over profits\n• Discipline over dopamine\n• Risk management first\n\n*Your mindset determines your market results.*\n\nLet's have a disciplined day! 💪` 
+                },
+                { 
+                    title: "Daily Focus", 
+                    desc: "Set trading intentions",
+                    content: `🎯 *DAILY FOCUS* 🎯\n\nToday's Trading Intentions:\n\n✅ Follow my plan exactly\n✅ Respect all stop losses\n✅ Manage position sizes\n✅ No revenge trading\n✅ Journal all decisions\n\n*Discipline is the bridge between goals and accomplishment.*` 
+                }
+            ],
+            education: [
+                { 
+                    title: "Risk of Ruin", 
+                    desc: "Mathematical risk management",
+                    content: `📊 *RISK OF RUIN - THE MATH* 📊\n\nEven with 60% win rate:\n• 5% risk/trade = 60% ruin risk\n• 2% risk/trade = 13% ruin risk\n• 1% risk/trade = 2% ruin risk\n\n*Key Insight:*\nSmall size = Long survival\nBig size = Quick death\n\nYour #1 Job: PRESERVE CAPITAL` 
+                },
+                { 
+                    title: "Position Sizing", 
+                    desc: "Calculate perfect trade size",
+                    content: `⚖️ *POSITION SIZING MASTERY* ⚖️\n\nSimple Formula:\n(Account × 0.02) ÷ Stop Loss % = Position Size\n\nExample:\n$10,000 × 0.02 = $200 risk\nStop at 5% below entry = $200 ÷ 0.05 = $4,000 position\n\n*Never risk more than 2% per trade*` 
+                }
+            ],
+            psychology: [
+                { 
+                    title: "Discipline Audit", 
+                    desc: "Check rule adherence",
+                    content: `🎯 *DISCIPLINE AUDIT* 🎯\n\nSelf-Check Questions:\n\n✅ Did I follow my trading plan?\n✅ Did I respect my stop losses?\n✅ Did I manage position size?\n✅ Did I control my emotions?\n✅ Did I avoid revenge trading?\n\n*Discipline is choosing between what you want NOW and what you want MOST.*` 
+                },
+                { 
+                    title: "FOMO Destroyer", 
+                    desc: "Annihilate chase impulses",
+                    content: `💎 *FOMO DESTROYER* 💎\n\nTruth Bomb:\n\n"Missing 10 pumps is better than catching 1 dump."\n\n• Patience = Your edge\n• Chasing = Charity for whales\n• FOMO = Account destroyer\n• Waiting = Profit maker\n\n*Be the last to buy, first to sell.*` 
+                }
+            ],
+            community: [
+                { 
+                    title: "Weekly Challenge", 
+                    desc: "Engage with mission",
+                    content: `🏆 *WEEKLY COMMUNITY CHALLENGE* 🏆\n\nThis Week: "The 1% Discipline Challenge"\n\n🔹 Risk only 1% per trade\n🔹 Journal every decision\n🔹 No revenge trading\n🔹 Share 1 lesson learned\n\n*Who's joining the challenge? Drop ✅ below!*\n\nLet's grow together! 🌱` 
+                },
+                { 
+                    title: "Q&A Session", 
+                    desc: "Spark discussion",
+                    content: `❓ *COMMUNITY Q&A SESSION* ❓\n\nWhat's your biggest trading challenge right now?\n\n• Entry timing?\n• Exit strategy?\n• Emotional control?\n• Risk management?\n\nDrop your questions below! 👇\n\nLet's help each other grow! 🤝` 
+                }
+            ]
+        };
+
+        // Statistics
+        let statistics = JSON.parse(localStorage.getItem('futureblock_stats')) || {
+            totalMessages: 0,
+            todayMessages: 0,
+            aiGenerated: 0,
+            categoryCounts: { morning: 0, education: 0, psychology: 0, community: 0 },
+            scheduledMessages: 0,
+            lastMessageDate: new Date().toDateString()
+        };
+
+        // Preview System
+        let currentPreviewMessage = '';
+        let currentPreviewCategory = '';
+
+        function showPreview(message, category) {
+            currentPreviewMessage = message;
+            currentPreviewCategory = category;
+            document.getElementById('previewText').textContent = message;
+            document.getElementById('previewModal').style.display = 'flex';
+        }
+
+        function closePreview() {
+            document.getElementById('previewModal').style.display = 'none';
+            currentPreviewMessage = '';
+            currentPreviewCategory = '';
+        }
+
+        function sendPreviewMessage() {
+            if (currentPreviewMessage) {
+                sendMessage(currentPreviewMessage, currentPreviewCategory);
+                closePreview();
+            }
+        }
+
+        // Core Message Sending
+        function sendMessage(content, category) {
+            // For now, just show a preview since we don't have Telegram bot setup
+            console.log("Message would be sent:", content);
+            
+            // Update statistics
+            statistics.totalMessages++;
+            statistics.todayMessages++;
+            statistics.categoryCounts[category]++;
+            if (category === 'ai_generated') statistics.aiGenerated++;
+            saveStatistics();
+            updateStatistics();
+            
+            alert('📨 Message Preview (Telegram would send this):\n\n' + content);
+        }
+
+        // Preview Functions
+        function previewMorningSequence() {
+            const message = MESSAGES.morning[0].content + '\n\n' + MESSAGES.education[0].content;
+            showPreview(message, 'morning');
+        }
+
+        function previewRandomEducation() {
+            const messages = MESSAGES.education;
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            showPreview(randomMessage.content, 'education');
+        }
+
+        function previewPsychologyBoost() {
+            const messages = MESSAGES.psychology;
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            showPreview(randomMessage.content, 'psychology');
+        }
+
+        function previewCommunityEngagement() {
+            const messages = MESSAGES.community;
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            showPreview(randomMessage.content, 'community');
+        }
+
+        function previewDailySequence() {
+            previewMorningSequence();
+        }
+
+        // Module Functions
+        function openMorningDashboard() {
+            alert('🌅 Opening Morning Engine Dashboard...');
+        }
+
+        function openEducationHub() {
+            alert('🎓 Opening Education Hub...');
+        }
+
+        function openPsychologyLab() {
+            alert('🧠 Opening Psychology Lab...');
+        }
+
+        function openCommunityHub() {
+            alert('👥 Opening Community Hub...');
+        }
+
+        function openAILab() {
+            const topic = prompt('Enter topic for AI generation:');
+            if (topic) {
+                generateAIMessage(topic);
+            }
+        }
+
+        function openScheduler() {
+            alert('⏰ Opening Smart Scheduler...');
+        }
+
+        // AI Generation
+        function generateAIMessage(topic) {
+            const aiResponses = {
+                'risk': `🛡️ *AI GENERATED: RISK MASTERY* 🛡️\n\nTopic: ${topic}\n\nKey Principles:\n• Never risk more than 2% per trade\n• Always use stop losses\n• Position size determines survival\n• Risk first, profits follow\n\n*Remember:* Professionals focus on risk, amateurs focus on profits.`,
+                'fomo': `🚫 *AI GENERATED: FOMO ELIMINATOR* 🚫\n\nTopic: ${topic}\n\nTruth Bomb:\n• Missed opportunities = Saved capital\n• Chasing = Guaranteed losses\n• Patience = Your edge\n• FOMO = Financial suicide\n\n*Be the last to buy, first to sell.*`,
+                'discipline': `🎯 *AI GENERATED: DISCIPLINE BLUEPRINT* 🎯\n\nTopic: ${topic}\n\nDiscipline Framework:\n1. Written trading plan\n2. Pre-defined risk parameters\n3. Emotional checkpoints\n4. Regular review process\n\n*Discipline is the bridge between goals and accomplishment.*`
+            };
+            
+            const defaultAI = `✨ *AI GENERATED MESSAGE* ✨\n\nTopic: ${topic}\n\nKey Insights:\n• Focus on process over outcome\n• Manage emotions systematically\n• Continuous learning mindset\n• Community support value\n\n*Growth happens at the edge of your comfort zone.*`;
+            
+            const aiMessage = aiResponses[topic.toLowerCase()] || defaultAI;
+            showPreview(aiMessage, 'ai_generated');
+        }
+
+        function generateQuickAI() {
+            const topics = ['risk', 'discipline', 'psychology', 'patience'];
+            const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+            generateAIMessage(randomTopic);
+        }
+
+        function openAIGenerator() {
+            const topic = prompt('🤖 Enter topic for AI generation:');
+            if (topic) {
+                generateAIMessage(topic);
+            }
+        }
+
+        // Scheduling
+        function scheduleRandomMessage() {
+            const categories = ['morning', 'education', 'psychology', 'community'];
+            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+            const messages = MESSAGES[randomCategory];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            statistics.scheduledMessages++;
+            saveStatistics();
+            updateStatistics();
+            
+            alert(`⏰ Message scheduled! Will be sent in 30 minutes.\n\nCategory: ${randomCategory}\n\nPreview: ${randomMessage.content.substring(0, 50)}...`);
+        }
+
+        function scheduleQuickMessage() {
+            scheduleRandomMessage();
+        }
+
+        // Statistics
+        function updateStatistics() {
+            document.getElementById('totalMessages').textContent = statistics.totalMessages;
+            document.getElementById('todayMessages').textContent = statistics.todayMessages;
+            document.getElementById('aiGenerated').textContent = statistics.aiGenerated;
+            document.getElementById('morningCount').textContent = statistics.categoryCounts.morning;
+            document.getElementById('educationCount').textContent = statistics.categoryCounts.education;
+            document.getElementById('psychologyCount').textContent = statistics.categoryCounts.psychology;
+            document.getElementById('communityCount').textContent = statistics.categoryCounts.community;
+            document.getElementById('scheduledCount').textContent = statistics.scheduledMessages;
+        }
+
+        function saveStatistics() {
+            localStorage.setItem('futureblock_stats', JSON.stringify(statistics));
+        }
+
+        // Info Functions
+        function showStats() {
+            alert(`📊 System Statistics:\n\nTotal Messages: ${statistics.totalMessages}\nToday: ${statistics.todayMessages}\nAI Generated: ${statistics.aiGenerated}\nScheduled: ${statistics.scheduledMessages}`);
+        }
+
+        function showTodayStats() {
+            alert(`📈 Today's Activity:\n\nMessages Sent: ${statistics.todayMessages}\nLast Reset: ${statistics.lastMessageDate}`);
+        }
+
+        function showTemplates() {
+            alert('📦 Active Modules:\n\n• Morning Engine (3 templates)\n• Education Hub (4 modules)\n• Psychology Lab (5 tools)\n• Community Hub (3 activities)\n• AI Generator\n• Smart Scheduler');
+        }
+
+        function showPerformance() {
+            alert('⚡ System Performance:\n\nStatus: Optimal\nModules: 12/12 Active\nUptime: 100%\nReady: Yes');
+        }
+
+        // Template Viewers
+        function showMorningTemplates() {
+            const templates = MESSAGES.morning.map(m => `• ${m.title}: ${m.desc}`).join('\n');
+            alert(`🌅 Morning Templates:\n\n${templates}`);
+        }
+
+        function showEducationModules() {
+            const modules = MESSAGES.education.map(m => `• ${m.title}: ${m.desc}`).join('\n');
+            alert(`🎓 Education Modules:\n\n${modules}`);
+        }
+
+        function showPsychologyTools() {
+            const tools = MESSAGES.psychology.map(m => `• ${m.title}: ${m.desc}`).join('\n');
+            alert(`🧠 Psychology Tools:\n\n${tools}`);
+        }
+
+        function showCommunityActivities() {
+            const activities = MESSAGES.community.map(m => `• ${m.title}: ${m.desc}`).join('\n');
+            alert(`👥 Community Activities:\n\n${activities}`);
+        }
+
+        function showAITemplates() {
+            alert(`🤖 AI Template Topics:\n\n• Risk Management\n• FOMO Control\n• Discipline\n• Psychology\n• Patience\n• And many more...`);
+        }
+
+        function showSchedule() {
+            alert(`⏰ Scheduled Messages:\n\nCurrently scheduled: ${statistics.scheduledMessages}\n\nNext check: In 30 minutes`);
+        }
+
+        // Initialize
+        function initializeApp() {
+            updateStatistics();
+            
+            const today = new Date().toDateString();
+            if (statistics.lastMessageDate !== today) {
+                statistics.todayMessages = 0;
+                statistics.lastMessageDate = today;
+                saveStatistics();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+              </html>
